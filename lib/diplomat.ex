@@ -1,0 +1,2 @@
+defmodule Diplomat do
+end
