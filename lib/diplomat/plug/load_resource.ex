@@ -4,6 +4,7 @@ defmodule Diplomat.Plug.LoadResource do
   """
 
   import Diplomat.Plug
+  import Plug.Conn, only: [put_private: 3]
 
   @doc false
   def init(opts), do: opts
@@ -22,7 +23,7 @@ defmodule Diplomat.Plug.LoadResource do
   defp fetch_resource({loader, opts}, conn) do
     case apply(loader, :fetch_resource, [conn_tuple(conn), conn.params]) do
       {:ok, resource} ->
-        Plug.Conn.put_private(conn, :diplomat_resource, resource)
+        put_private(conn, :diplomat_resource, resource)
       {:error, _reason} ->
         handle_error(:resource_missing, conn, opts)
     end
