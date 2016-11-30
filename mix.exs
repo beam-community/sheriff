@@ -17,6 +17,9 @@ defmodule Diplomat.Mixfile do
   end
 
   defp deps do
-    [{:plug, "~> 1.2.2"}]
+    [
+      {:plug, "~> 1.2.2"},
+      {:credo, "~> 0.5", only: [:dev, :test]},
+    ]
   end
 end
