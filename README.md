@@ -1,4 +1,4 @@
-# Diplomat
+# Sheriff
 
 Build simple and robust authorization systems with Elixir and Plug.
 
@@ -6,42 +6,42 @@ Build simple and robust authorization systems with Elixir and Plug.
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
 
-  1. Add `diplomat` to your list of dependencies in `mix.exs`:
+  1. Add `sheriff` to your list of dependencies in `mix.exs`:
 
     ```elixir
     def deps do
-      [{:diplomat, "~> 0.1.0"}]
+      [{:sheriff, "~> 0.1.0"}]
     end
     ```
 
-  2. Ensure `diplomat` is started before your application:
+  2. Ensure `sheriff` is started before your application:
 
     ```elixir
     def application do
-      [applications: [:diplomat]]
+      [applications: [:sheriff]]
     end
     ```
 
 ## Plugs
 
-There are two main plugs for Diplomat both of which should occur _after_ `Plug.Parser`:
+There are two main plugs for Sheriff both of which should occur _after_ `Plug.Parser`:
 
-+ `Diplomat.Plug.LoadResource` - Use the configured `ResourceLoader` to retrieve the target resource
-+ `Diplomat.Plug.EnsurePermitted` - Apply the specified `Policy` using the current user, target resource, and request.
++ `Sheriff.Plug.LoadResource` - Use the configured `ResourceLoader` to retrieve the target resource
++ `Sheriff.Plug.EnsurePermitted` - Apply the specified `Policy` using the current user, target resource, and request.
 
 ## Current User
 
-Diplomat relies on the the `:current_user` key being set in the `Plug.Conn.private` map.
+Sheriff relies on the the `:current_user` key being set in the `Plug.Conn.private` map.
 
 ## Resource Loading
 
 Resource loaders are responsible for retrieving the targetted resource provided with the curernt request and parameters.  Resource loaders can be specified in your application configuration or on a per plug basis.
 
-Diplomat ships with a convenient `Diplomat.ResourceLoader` behaviour:
+Sheriff ships with a convenient `Sheriff.ResourceLoader` behaviour:
 
 ```elixir
 defmodule Example.UserLoader do
-  @behaviour Diplomat.ResourceLoader
+  @behaviour Sheriff.ResourceLoader
 
   def fetch_resource({:get, "/users"}, %{"id" => id}), do: Repo.get(User, id)
   def fetch_resource({:get, "/users"}, _params), do: Repo.all(User)
@@ -51,11 +51,11 @@ end
 
 ## Policies
 
-Policies are modules that implement the `Diplomat.Policy` behaviour:
+Policies are modules that implement the `Sheriff.Policy` behaviour:
 
 ```elixir
 defmodule Example.UserPolicy do
-  @behaviour Diplomat.Policy
+  @behaviour Sheriff.Policy
 
   alias Example.User
 
@@ -75,10 +75,10 @@ defmodule Example.UserPolicy do
 end
 ```
 
-To use our policy, we need our `Diplomat.Plug.EnsurePermitted` plug:
+To use our policy, we need our `Sheriff.Plug.EnsurePermitted` plug:
 
 ```elixir
-plug Diplomat.Plug.EnsurePermitted, policy: Example.UserPolicy
+plug Sheriff.Plug.EnsurePermitted, policy: Example.UserPolicy
 ```
 
 That's it!

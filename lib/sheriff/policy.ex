@@ -1,4 +1,4 @@
-defmodule Diplomat.Policy do
+defmodule Sheriff.Policy do
   @moduledoc """
   A basic behaviour for policies
   """

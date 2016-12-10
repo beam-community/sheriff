@@ -1,10 +1,10 @@
-defmodule Diplomat.Plug.EnsurePermitted do
+defmodule Sheriff.Plug.EnsurePermitted do
   @moduledoc """
   Test the policy against the current route, actor, and resource.
   """
 
-  import Diplomat.Plug
-  alias Diplomat.Plug
+  import Sheriff.Plug
+  alias Sheriff.Plug
 
   @not_permitted "you are not permitted to perform the requested action"
 

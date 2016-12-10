@@ -1,9 +1,9 @@
-defmodule Diplomat.Plug.LoadResource do
+defmodule Sheriff.Plug.LoadResource do
   @moduledoc """
   Load the request's target resource and store it on the connection for use downstream.
   """
 
-  import Diplomat.Plug
+  import Sheriff.Plug
   import Plug.Conn, only: [put_private: 3]
 
   @doc false
@@ -23,7 +23,7 @@ defmodule Diplomat.Plug.LoadResource do
   defp fetch_resource({loader, opts}, conn) do
     case apply(loader, :fetch_resource, [conn_tuple(conn), conn.params]) do
       {:ok, resource} ->
-        put_private(conn, :diplomat_resource, resource)
+        put_private(conn, :sheriff_resource, resource)
       {:error, _reason} ->
         handle_error(:resource_missing, conn, opts)
     end
