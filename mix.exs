@@ -3,13 +3,20 @@ defmodule Sheriff.Mixfile do
 
   @version "0.1.0"
 
+  @github "https://github.com/doomspork/sheriff"
+
   def project do
     [app: :sheriff,
-     version: @version,
-     elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
+     deps: deps(),
+     description: description(),
+     docs: docs(),
+     elixir: "~> 1.3",
+     homepage_url: @github,
+     package: package(),
+     source_url: @github,
      start_permanent: Mix.env == :prod,
-     deps: deps()]
+     version: @version]
   end
 
   def application do
@@ -21,5 +28,20 @@ defmodule Sheriff.Mixfile do
       {:plug, "~> 1.2.2"},
       {:credo, "~> 0.5", only: [:dev, :test]},
     ]
+  end
+
+  defp description do
+    "Build simple and robust authorization systems with Elixir and Plug."
+  end
+
+  defp docs do
+    [extras: ["README.md"]]
+  end
+
+  defp package do
+    [files: ["lib", "mix.exs", "README.md", "LICENSE"],
+      maintainers: ["Sean Callan", "Bobby Grayson"],
+      licenses: ["MIT"],
+      links: %{"GitHub": @github}]
   end
 end
