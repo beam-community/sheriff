@@ -1,10 +1,10 @@
-defmodule Diplomat.Mixfile do
+defmodule Sheriff.Mixfile do
   use Mix.Project
 
   @version "0.1.0"
 
   def project do
-    [app: :diplomat,
+    [app: :sheriff,
      version: @version,
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,

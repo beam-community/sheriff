@@ -1,4 +1,4 @@
-defmodule Diplomat.Handler do
+defmodule Sheriff.Handler do
   @moduledoc """
   Handles the dispatch of requests for missing, unethenticated,
   and unauthorized requests in the pipeline with a simple setup

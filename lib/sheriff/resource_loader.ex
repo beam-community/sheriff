@@ -1,4 +1,4 @@
-defmodule Diplomat.ResourceLoader do
+defmodule Sheriff.ResourceLoader do
   @moduledoc """
   A module to load a resource given its role and action
   """

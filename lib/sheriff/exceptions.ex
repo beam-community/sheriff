@@ -1,4 +1,4 @@
-defmodule Diplomat.NotPermittedError do
+defmodule Sheriff.NotPermittedError do
   @moduledoc """
   A module to handle a lack of permissions for a given request
   """

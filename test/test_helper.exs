@@ -1,14 +1,14 @@
 ExUnit.start()
 
-defmodule Diplomat.TestHelper do
+defmodule Sheriff.TestHelper do
   def run_plug(conn, plug_module, opts) do
     opts = apply(plug_module, :init, [opts])
     apply(plug_module, :call, [conn, opts])
   end
 end
 
-defmodule Diplomat.TestErrorHandler do
-  @behaviour Diplomat.Handler
+defmodule Sheriff.TestErrorHandler do
+  @behaviour Sheriff.Handler
 
   import Plug.Conn
 
@@ -17,16 +17,16 @@ defmodule Diplomat.TestErrorHandler do
   def unauthorized(conn), do: send_resp(conn, 403, "unauthorized")
 end
 
-defmodule Diplomat.TestPolicy do
-  @behaviour Diplomat.Policy
+defmodule Sheriff.TestPolicy do
+  @behaviour Sheriff.Policy
 
   def permitted?(%{id: id}, {:get, "/users"}, %{id: id}), do: true
   def permitted?(%{role: "admin"}, _, _), do: true
   def permitted?(_, _, _), do: false
 end
 
-defmodule Diplomat.TestLoader do
-  @behaviour Diplomat.ResourceLoader
+defmodule Sheriff.TestLoader do
+  @behaviour Sheriff.ResourceLoader
 
   def fetch_resource({:get, "/users"}, %{"id" => "42"}), do: {:ok, %{id: 42}}
   def fetch_resource(_, %{"id" => "1"}), do: {:ok, %{id: 1}}

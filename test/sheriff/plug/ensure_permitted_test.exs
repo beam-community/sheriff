@@ -1,11 +1,11 @@
-defmodule Diplomat.Plug.EnsurePermittedTest do
+defmodule Sheriff.Plug.EnsurePermittedTest do
   use ExUnit.Case, async: true
   use Plug.Test
 
 
-  import Diplomat.TestHelper
+  import Sheriff.TestHelper
 
-  alias Diplomat.{Plug.EnsurePermitted,
+  alias Sheriff.{Plug.EnsurePermitted,
                   Plug.LoadResource,
                   TestErrorHandler,
                   TestLoader,
@@ -27,7 +27,7 @@ defmodule Diplomat.Plug.EnsurePermittedTest do
       |> Plug.Conn.put_private(:current_user, %{id: 1})
       |> run_plug(EnsurePermitted, policy: TestPolicy)
 
-    assert conn.private[:diplomat_resource] == %{id: 1}
+    assert conn.private[:sheriff_resource] == %{id: 1}
   end
 
   test "permits requests for admins", %{conn: conn} do
@@ -36,7 +36,7 @@ defmodule Diplomat.Plug.EnsurePermittedTest do
       |> Plug.Conn.put_private(:current_user, %{id: 2, role: "admin"})
       |> run_plug(EnsurePermitted, policy: TestPolicy)
 
-    assert conn.private[:diplomat_resource] == %{id: 1}
+    assert conn.private[:sheriff_resource] == %{id: 1}
   end
 
   test "returns 401 for unauthenticated users", %{conn: conn} do
