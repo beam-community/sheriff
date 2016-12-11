@@ -35,7 +35,7 @@ defmodule Sheriff.Plug.EnsurePermitted do
   end
 
   defp permitted?({actor, resource, conn, opts}, policy) do
-    permitted = apply(policy, :permitted?, [actor, conn_tuple(conn), resource])
+    permitted = apply(policy, :permitted?, [actor, conn_action(conn), resource])
     if permitted, do: conn, else: handle_error(:unauthorized, conn, opts)
   end
   defp permitted?(conn, _), do: conn

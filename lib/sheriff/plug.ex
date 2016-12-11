@@ -27,6 +27,10 @@ defmodule Sheriff.Plug do
     {method, conn.request_path}
   end
 
+  def conn_action(conn) do
+    conn.private[:phoenix_action] || conn_tuple(conn)
+  end
+
   def handle_error(error, conn, opts) do
     opts
     |> from_opts(:handler)
