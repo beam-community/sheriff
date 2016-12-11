@@ -3,5 +3,5 @@ defmodule Sheriff.Policy do
   A basic behaviour for policies
   """
 
-  @callback permitted?(map, {atom, String.t}, map | nil) :: boolean()
+  @callback permitted?(map, {atom, String.t} | atom, map | nil) :: boolean()
 end

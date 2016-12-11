@@ -2,7 +2,6 @@ defmodule Sheriff.Plug.EnsurePermittedTest do
   use ExUnit.Case, async: true
   use Plug.Test
 
-
   import Sheriff.TestHelper
 
   alias Sheriff.{Plug.EnsurePermitted,
@@ -57,5 +56,19 @@ defmodule Sheriff.Plug.EnsurePermittedTest do
 
     assert conn.state == :sent
     assert conn.status == 403
+  end
+
+  test "supports policies using phoenix_action" do
+    Application.put_env(:sheriff, :resource_loader, TestLoader)
+
+    conn =
+      :get
+      |> conn("/users")
+      |> Plug.Conn.put_private(:phoenix_action, :index)
+      |> Plug.Conn.put_private(:current_user, %{id: 9})
+      |> run_plug(LoadResource, resource_loader: TestLoader)
+      |> run_plug(EnsurePermitted, policy: TestPolicy)
+
+    assert conn.private[:sheriff_resource] == [%{id: 1}, %{id: 2}]
   end
 end

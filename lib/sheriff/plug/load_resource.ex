@@ -21,7 +21,7 @@ defmodule Sheriff.Plug.LoadResource do
   end
 
   defp fetch_resource({loader, opts}, conn) do
-    case apply(loader, :fetch_resource, [conn_tuple(conn), conn.params]) do
+    case apply(loader, :fetch_resource, [conn_action(conn), conn.params]) do
       {:ok, resource} ->
         put_private(conn, :sheriff_resource, resource)
       {:error, _reason} ->
