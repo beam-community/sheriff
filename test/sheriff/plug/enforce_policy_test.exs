@@ -1,10 +1,10 @@
-defmodule Sheriff.Plug.EnsurePermittedTest do
+defmodule Sheriff.Plug.EnforcePolicyTest do
   use ExUnit.Case, async: true
   use Plug.Test
 
   import Sheriff.TestHelper
 
-  alias Sheriff.{Plug.EnsurePermitted,
+  alias Sheriff.{Plug.EnforcePolicy,
                   Plug.LoadResource,
                   TestErrorHandler,
                   TestLoader,
@@ -24,7 +24,7 @@ defmodule Sheriff.Plug.EnsurePermittedTest do
     conn =
       conn
       |> Plug.Conn.put_private(:current_user, %{id: 1})
-      |> run_plug(EnsurePermitted, policy: TestPolicy)
+      |> run_plug(EnforcePolicy, policy: TestPolicy)
 
     assert conn.private[:sheriff_resource] == %{id: 1}
   end
@@ -33,7 +33,7 @@ defmodule Sheriff.Plug.EnsurePermittedTest do
     conn =
       conn
       |> Plug.Conn.put_private(:current_user, %{id: 2, role: "admin"})
-      |> run_plug(EnsurePermitted, policy: TestPolicy)
+      |> run_plug(EnforcePolicy, policy: TestPolicy)
 
     assert conn.private[:sheriff_resource] == %{id: 1}
   end
@@ -42,7 +42,7 @@ defmodule Sheriff.Plug.EnsurePermittedTest do
     conn =
       conn
       |> Plug.Conn.put_private(:current_user, nil)
-      |> run_plug(EnsurePermitted, policy: TestPolicy, handler: TestErrorHandler)
+      |> run_plug(EnforcePolicy, policy: TestPolicy, handler: TestErrorHandler)
 
     assert conn.state == :sent
     assert conn.status == 401
@@ -52,7 +52,7 @@ defmodule Sheriff.Plug.EnsurePermittedTest do
     conn =
       conn
       |> Plug.Conn.put_private(:current_user, %{id: 9})
-      |> run_plug(EnsurePermitted, policy: TestPolicy, handler: TestErrorHandler)
+      |> run_plug(EnforcePolicy, policy: TestPolicy, handler: TestErrorHandler)
 
     assert conn.state == :sent
     assert conn.status == 403
@@ -67,7 +67,7 @@ defmodule Sheriff.Plug.EnsurePermittedTest do
       |> Plug.Conn.put_private(:phoenix_action, :index)
       |> Plug.Conn.put_private(:current_user, %{id: 9})
       |> run_plug(LoadResource, resource_loader: TestLoader)
-      |> run_plug(EnsurePermitted, policy: TestPolicy)
+      |> run_plug(EnforcePolicy, policy: TestPolicy)
 
     assert conn.private[:sheriff_resource] == [%{id: 1}, %{id: 2}]
   end

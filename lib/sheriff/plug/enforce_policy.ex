@@ -1,4 +1,4 @@
-defmodule Sheriff.Plug.EnsurePermitted do
+defmodule Sheriff.Plug.EnforcePolicy do
   @moduledoc """
   Test the policy against the current route, actor, and resource.
   """
