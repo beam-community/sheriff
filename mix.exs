@@ -26,7 +26,9 @@ defmodule Sheriff.Mixfile do
   defp deps do
     [
       {:plug, "~> 1.2.2"},
+
       {:credo, "~> 0.5", only: [:dev, :test]},
+      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
 
