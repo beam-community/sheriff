@@ -7,6 +7,7 @@ defmodule Sheriff.Plug.EnforcePolicy do
   alias Sheriff.Plug
 
   @not_permitted "you are not permitted to perform the requested action"
+  @resource_key Application.get_env(:sheriff, :resource_key, :current_user)
 
   @doc false
   def init(opts), do: opts
@@ -25,7 +26,7 @@ defmodule Sheriff.Plug.EnforcePolicy do
   end
 
   defp fetch_actor(conn) do
-    {conn.private[:current_user], conn}
+    {conn.private[@resource_key], conn}
   end
 
   defp fetch_resource({nil, conn}, opts), do: handle_error(:unauthenticated, conn, opts)
