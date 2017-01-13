@@ -24,7 +24,12 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ## Current User
 
-Sheriff relies on the the `:current_user` key being set in the `Plug.Conn.private` map.
+Sheriff defaults to `:current_user` being set as a key in the `Plug.Conn.private` map, but you can specify your own in your config:
+
+```elixir
+config :sheriff,
+  resource_key: :your_desired_resource_key
+```
 
 ## Resource Loading
 
@@ -93,5 +98,12 @@ Within Sheriff there are three error scenerios we want to address:
 We'll want to provide a handler to Sheriff.  A handler is any module that
 implements `resource_missing/1`, `unauthenticated/1`, and `unauthorized/1`;
 you may can use the `Sheriff.Handler` behaviour if you'd like.
+
+If you do this, you will need to add it to your config as well:
+
+```elixir
+config :sheriff,
+  handler: YourApp.ErrorHandler
+```
 
 That's it!
