@@ -1,20 +1,19 @@
 defmodule Sheriff.Plug.EnforcePolicy do
   @moduledoc """
-  Test the policy against the current route, actor, and resource.
+  Enforces authorization policies for actors and resources
   """
 
   import Sheriff.Plug
+
   alias Sheriff.Plug
 
-  @not_permitted "you are not permitted to perform the requested action"
   @resource_key Application.get_env(:sheriff, :resource_key, :current_user)
 
   @doc false
   def init(opts), do: opts
 
   @doc """
-  Verify against the policy that the actor is permitted to interact
-  with the given resource.
+  Apply a policy against the current actor and requested resource.
   """
   def call(conn, opts) do
     policy = Keyword.fetch!(opts, :policy)

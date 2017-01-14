@@ -1,6 +1,5 @@
 defmodule Sheriff do
   @moduledoc """
-  A simple, minimimal-dependency way to manage authentication and
-  access to various resources in a given application
+  A simple minimal-dependency way to manage policy based authorization
   """
 end
