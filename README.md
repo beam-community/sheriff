@@ -10,7 +10,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
     ```elixir
     def deps do
-      [{:sheriff, "~> 0.1"}]
+      [{:sheriff, "~> 0.2"}]
     end
     ```
 
