@@ -6,31 +6,27 @@ defmodule Sheriff.Plug do
 
   import Plug.Conn, only: [halt: 1]
 
-  @handler Application.get_env(:sheriff, :handler)
-
   @doc """
   Retrieve the current Actor resource.
   """
+
+  @spec current_actor(Plug.Conn.t) :: any
   def current_actor(conn), do: conn.private[:sheriff_actor]
 
   @doc """
   Retrieve the current resource for the request.
   """
+
+  @spec current_resource(Plug.Conn.t) :: any
   def current_resource(conn), do: conn.private[:sheriff_resource]
 
-  def conn_tuple(conn) do
-    method =
-      conn.method
-      |> String.downcase
-      |> String.to_atom
+  @spec conn_action(Plug.Conn.t) :: atom | {atom, binary}
+  def conn_action(conn), do: conn.private[:phoenix_action] || conn_tuple(conn)
 
-    {method, conn.request_path}
-  end
+  @spec from_opts(keyword, atom) :: any
+  def from_opts(opts, key), do: Keyword.get(opts, key) || Application.get_env(:sheriff, key)
 
-  def conn_action(conn) do
-    conn.private[:phoenix_action] || conn_tuple(conn)
-  end
-
+  @spec handle_error(atom, Plug.Conn.t, keyword) :: Plug.Conn.t
   def handle_error(error, conn, opts) do
     opts
     |> from_opts(:handler)
@@ -38,5 +34,12 @@ defmodule Sheriff.Plug do
     |> halt
   end
 
-  def from_opts(opts, key), do: Keyword.get(opts, key) || Application.get_env(:sheriff, key)
+  defp conn_tuple(conn) do
+    method =
+      conn.method
+      |> String.downcase
+      |> String.to_atom
+
+    {method, conn.request_path}
+  end
 end

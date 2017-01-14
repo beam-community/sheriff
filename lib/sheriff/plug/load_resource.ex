@@ -1,6 +1,6 @@
 defmodule Sheriff.Plug.LoadResource do
   @moduledoc """
-  Load the request's target resource and store it on the connection for use downstream.
+  Load the requested resource and store it on the connection.
   """
 
   import Sheriff.Plug
@@ -9,7 +9,11 @@ defmodule Sheriff.Plug.LoadResource do
   @doc false
   def init(opts), do: opts
 
-  @doc false
+  @doc """
+  Loads a resource for the requested path.  In the event of an error `resource_missing/1`
+  will be invoked on the configured error handler.
+  """
+  @spec call(Plug.Conn.t, keyword) :: Plug.Conn.t
   def call(conn, opts) do
     opts
     |> resource_loader

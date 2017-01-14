@@ -1,6 +1,6 @@
 # Sheriff
 
-Build simple and robust authorization systems with Elixir and Plug.
+A simple minimal-dependency way to manage policy based authorization.
 
 ## Installation
 
@@ -24,7 +24,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ## Current User
 
-Sheriff defaults to `:current_user` being set as a key in the `Plug.Conn.private` map, but you can specify your own in your config:
+Sheriff defaults to looking in `Plug.Conn.private` for `:current_user`, but this may not be compatible with all appliaction so we can configure the key:
 
 ```elixir
 config :sheriff,
@@ -49,7 +49,7 @@ end
 
 ## Policies
 
-Policies are modules that implement the `Sheriff.Policy` behaviour:
+In Sheriff authorization is handled with policies which are modules that implement the `Sheriff.Policy` behaviour:
 
 ```elixir
 defmodule Example.UserPolicy do
@@ -75,34 +75,33 @@ end
 
 ## Plugs
 
-There are two plugs that Sheriff relies upon of which should occur _after_ `Plug.Parser`:
+There are two plugs that serve as the workhorses of Sheriff, these need to occur __after__ `Plug.Parser`:
 
 + `Sheriff.Plug.LoadResource` - Uses the configured `ResourceLoader` to fetch the target resource
 + `Sheriff.Plug.EnforcePolicy` - Apply a given `Policy` against the current user, target resource, and request.
 
-When setting up our pipeline, we can use something like this:
+When defining our authorization pipeline we could use something like this:
 
 ```elixir
-plug Sheriff.Plug.LoadResource, resource_loader: Example.UserLoader
+plug Sheriff.Plug.LoadResource, loader: Example.UserLoader
 plug Sheriff.Plug.EnforcePolicy, policy: Example.UserPolicy
 ```
 
 ## Error Handling
 
-Within Sheriff there are three error scenerios we want to address:
+Sheriff has just three error scenerios we need to address:
 
-+ The request resource is missing
++ The requested resource is missing
 + The current user is not authenticated
 + The current user is not authorized to perform the requested action
 
-We'll want to provide a handler to Sheriff.  A handler is any module that
-implements `resource_missing/1`, `unauthenticated/1`, and `unauthorized/1`;
-you may can use the `Sheriff.Handler` behaviour if you'd like.
+To handle these cases we'll want to provide an error handler for Sheriff.  Our handler can be and module that
+implements `resource_missing/1`, `unauthenticated/1`, and `unauthorized/1`; the `Sheriff.Handler` behaviour is optional.
 
-If you do this, you will need to add it to your config as well:
+Sheriff makes no assumptions so we need to tell it which module to use as a handler:
 
 ```elixir
-config :sheriff,
+config Sheriff,
   handler: YourApp.ErrorHandler
 ```
 
