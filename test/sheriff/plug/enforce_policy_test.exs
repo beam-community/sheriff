@@ -59,7 +59,7 @@ defmodule Sheriff.Plug.EnforcePolicyTest do
   end
 
   test "supports policies using phoenix_action" do
-    Application.put_env(:sheriff, :resource_loader, TestLoader)
+    Application.put_env(Sheriff, :resource_loader, TestLoader)
 
     conn =
       :get

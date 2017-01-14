@@ -10,7 +10,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
     ```elixir
     def deps do
-      [{:sheriff, "~> 0.1.0"}]
+      [{:sheriff, "~> 0.1"}]
     end
     ```
 
@@ -27,7 +27,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 Sheriff defaults to looking in `Plug.Conn.private` for `:current_user`, but this may not be compatible with all appliaction so we can configure the key:
 
 ```elixir
-config :sheriff,
+config Sheriff,
   resource_key: :your_desired_resource_key
 ```
 

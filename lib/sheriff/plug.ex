@@ -24,7 +24,7 @@ defmodule Sheriff.Plug do
   def conn_action(conn), do: conn.private[:phoenix_action] || conn_tuple(conn)
 
   @spec from_opts(keyword, atom) :: any
-  def from_opts(opts, key), do: Keyword.get(opts, key) || Application.get_env(:sheriff, key)
+  def from_opts(opts, key), do: Keyword.get(opts, key) || Application.get_env(Sheriff, key)
 
   @spec handle_error(atom, Plug.Conn.t, keyword) :: Plug.Conn.t
   def handle_error(error, conn, opts) do
