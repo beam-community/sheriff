@@ -21,7 +21,7 @@ defmodule Sheriff.Plug.LoadResource do
   end
 
   defp resource_loader(opts) do
-    {from_opts(opts, :resource_loader), opts}
+    {from_opts(opts, :loader), opts}
   end
 
   defp fetch_resource({loader, opts}, conn) do

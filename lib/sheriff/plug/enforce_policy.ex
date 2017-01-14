@@ -7,7 +7,7 @@ defmodule Sheriff.Plug.EnforcePolicy do
 
   alias Sheriff.Plug
 
-  @resource_key Application.get_env(:sheriff, :resource_key, :current_user)
+  @resource_key Application.get_env(Sheriff, :resource_key, :current_user)
 
   @doc false
   def init(opts), do: opts
