@@ -1,7 +1,7 @@
 defmodule Sheriff.Mixfile do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.2.0"
 
   @github "https://github.com/doomspork/sheriff"
 
@@ -27,6 +27,7 @@ defmodule Sheriff.Mixfile do
     [
       {:plug, "~> 1.2.2"},
 
+      # Development and test dependencies
       {:credo, "~> 0.5", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
@@ -41,7 +42,7 @@ defmodule Sheriff.Mixfile do
   end
 
   defp package do
-    [files: ["lib", "mix.exs", "README.md", "LICENSE"],
+    [files: ["lib", "mix.exs", "README.md", "LICENSE", "CHANGELOG.md"],
       maintainers: ["Sean Callan", "Bobby Grayson"],
       licenses: ["MIT"],
       links: %{"GitHub": @github}]
