@@ -15,7 +15,7 @@ defmodule Sheriff.Plug.EnforcePolicyTest do
       :get
       |> conn("/users?id=1")
       |> run_plug(Plug.Parsers, parsers: [:urlencoded])
-      |> run_plug(LoadResource, resource_loader: TestLoader)
+      |> run_plug(LoadResource, loader: TestLoader)
 
     {:ok, conn: conn}
   end
@@ -59,14 +59,14 @@ defmodule Sheriff.Plug.EnforcePolicyTest do
   end
 
   test "supports policies using phoenix_action" do
-    Application.put_env(Sheriff, :resource_loader, TestLoader)
+    Application.put_env(Sheriff, :loader, TestLoader)
 
     conn =
       :get
       |> conn("/users")
       |> Plug.Conn.put_private(:phoenix_action, :index)
       |> Plug.Conn.put_private(:current_user, %{id: 9})
-      |> run_plug(LoadResource, resource_loader: TestLoader)
+      |> run_plug(LoadResource, loader: TestLoader)
       |> run_plug(EnforcePolicy, policy: TestPolicy)
 
     assert conn.private[:sheriff_resource] == [%{id: 1}, %{id: 2}]
