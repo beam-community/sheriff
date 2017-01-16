@@ -7,8 +7,6 @@ defmodule Sheriff.Plug.LoadResourceTest do
   alias Sheriff.{Plug.LoadResource, TestErrorHandler, TestLoader}
 
   test "fetches resource using application configuration" do
-    Application.put_env(Sheriff, :loader, TestLoader)
-
     conn =
       :get
       |> conn("/users?id=42")
@@ -19,8 +17,6 @@ defmodule Sheriff.Plug.LoadResourceTest do
   end
 
   test "fetches resource using phoenix_action" do
-    Application.put_env(Sheriff, :loader, TestLoader)
-
     conn =
       :get
       |> conn("/users?id=13")

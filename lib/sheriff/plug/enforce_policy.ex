@@ -7,8 +7,6 @@ defmodule Sheriff.Plug.EnforcePolicy do
 
   alias Sheriff.Plug
 
-  @resource_key Application.get_env(Sheriff, :resource_key, :current_user)
-
   @doc false
   def init(opts), do: opts
 
@@ -19,17 +17,18 @@ defmodule Sheriff.Plug.EnforcePolicy do
     policy = Keyword.fetch!(opts, :policy)
 
     conn
-    |> fetch_actor
-    |> fetch_resource(opts)
+    |> fetch_actor(opts)
+    |> fetch_resource
     |> permitted?(policy)
   end
 
-  defp fetch_actor(conn) do
-    {conn.private[@resource_key], conn}
+  defp fetch_actor(conn, opts) do
+    resource_key = Plug.from_opts(opts, :resource_key, :current_user)
+    {conn.private[resource_key], conn, opts}
   end
 
-  defp fetch_resource({nil, conn}, opts), do: handle_error(:unauthenticated, conn, opts)
-  defp fetch_resource({actor, conn}, opts) do
+  defp fetch_resource({nil, conn, opts}), do: handle_error(:unauthenticated, conn, opts)
+  defp fetch_resource({actor, conn, opts}) do
     resource = Plug.current_resource(conn)
     {actor, resource, conn, opts}
   end

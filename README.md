@@ -27,7 +27,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 Sheriff defaults to looking in `Plug.Conn.private` for `:current_user`, but this may not be compatible with all appliaction so we can configure the key:
 
 ```elixir
-config Sheriff,
+config :sheriff, Sheriff,
   resource_key: :your_desired_resource_key
 ```
 
@@ -101,7 +101,7 @@ implements `resource_missing/1`, `unauthenticated/1`, and `unauthorized/1`; the 
 Sheriff makes no assumptions so we need to tell it which module to use as a handler:
 
 ```elixir
-config Sheriff,
+config :sheriff, Sheriff,
   handler: YourApp.ErrorHandler
 ```
 
