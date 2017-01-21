@@ -24,7 +24,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ## Current User
 
-Sheriff defaults to looking in `Plug.Conn.private` for `:current_user`, but this may not be compatible with all appliaction so we can configure the key:
+Sheriff defaults to looking in `Plug.Conn.private` for `:current_user`, but this may not be compatible with all applications so we can configure the key:
 
 ```elixir
 config :sheriff, Sheriff,
@@ -33,7 +33,7 @@ config :sheriff, Sheriff,
 
 ## Resource Loading
 
-Resource loaders are responsible for retrieving the targetted resource provided for a specific request.  A global loader can be can be specified in your application configuration or individual loaders can be supplied on a per plug basis.
+Resource loaders are responsible for retrieving the targetted resource provided for a specific request.  A global loader can be specified in your application configuration or individual loaders can be supplied on a per plug basis.
 
 Sheriff ships with a convenient `Sheriff.ResourceLoader` behaviour:
 
@@ -65,10 +65,10 @@ defmodule Example.UserPolicy do
 
   # Team admin can view team members
   def permitted?(%User{role: "team_admin", team_id: id}, :show, resources) do
-    Enum.all?(resources, &(&1.team_id == team_id)
+    Enum.all?(resources, &(&1.team_id == team_id))
   end
 
-  # Not match, no access
+  # No match, no access
   def permitted?(_, _, _), do: false
 end
 ```
@@ -89,13 +89,13 @@ plug Sheriff.Plug.EnforcePolicy, policy: Example.UserPolicy
 
 ## Error Handling
 
-Sheriff has just three error scenerios we need to address:
+Sheriff has just three error scenarios we need to address:
 
 + The requested resource is missing
 + The current user is not authenticated
 + The current user is not authorized to perform the requested action
 
-To handle these cases we'll want to provide an error handler for Sheriff.  Our handler can be and module that
+To handle these cases we'll want to provide an error handler for Sheriff.  Our handler can be a module that
 implements `resource_missing/1`, `unauthenticated/1`, and `unauthorized/1`; the `Sheriff.Handler` behaviour is optional.
 
 Sheriff makes no assumptions so we need to tell it which module to use as a handler:
