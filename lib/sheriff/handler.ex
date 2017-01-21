@@ -1,6 +1,6 @@
 defmodule Sheriff.Handler do
   @moduledoc """
-  Handles the dispatch of requests for missing, unethenticated,
+  Handles the dispatch of requests for missing, unauthenticated
   and unauthorized requests in the pipeline with a simple setup
   of behaviours
   """
