@@ -1,6 +1,6 @@
-defmodule Sheriff.Policy do
+defmodule Sheriff.Law do
   @moduledoc """
-  A basic behaviour for policies
+  A basic behaviour for laws
   """
 
   @callback permitted?(map, {atom, String.t} | atom, map | nil) :: boolean()

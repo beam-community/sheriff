@@ -1,4 +1,5 @@
 # Sheriff
+[![Build Status](https://travis-ci.org/doomspork/sheriff.svg?branch=master)](https://travis-ci.org/doomspork/sheriff)
 
 A simple minimal-dependency way to manage policy based authorization.
 
@@ -10,7 +11,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
     ```elixir
     def deps do
-      [{:sheriff, "~> 0.2"}]
+      [{:sheriff, "~> 0.3"}]
     end
     ```
 
@@ -24,7 +25,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ## Current User
 
-Sheriff defaults to looking in `Plug.Conn.private` for `:current_user`, but this may not be compatible with all applications so we can configure the key:
+Sheriff defaults to looking in `Plug.Conn.private` for `:current_user`, but this may not be compatible with all applications, so we can configure the key:
 
 ```elixir
 config :sheriff, Sheriff,
@@ -47,13 +48,13 @@ end
 
 ```
 
-## Policies
+## Laws
 
-In Sheriff authorization is handled with policies which are modules that implement the `Sheriff.Policy` behaviour:
+In Sheriff authorization is handled with laws; which are modules that implement the `Sheriff.Law` behaviour:
 
 ```elixir
-defmodule Example.UserPolicy do
-  @behaviour Sheriff.Policy
+defmodule Example.UserLaw do
+  @behaviour Sheriff.Law
 
   alias Example.User
 
@@ -78,13 +79,13 @@ end
 There are two plugs that serve as the workhorses of Sheriff, these need to occur __after__ `Plug.Parser`:
 
 + `Sheriff.Plug.LoadResource` - Uses the configured `ResourceLoader` to fetch the target resource
-+ `Sheriff.Plug.EnforcePolicy` - Apply a given `Policy` against the current user, target resource, and request.
++ `Sheriff.Plug.EnforceLaw` - Apply a given `Law` against the current user, target resource, and request.
 
 When defining our authorization pipeline we could use something like this:
 
 ```elixir
 plug Sheriff.Plug.LoadResource, loader: Example.UserLoader
-plug Sheriff.Plug.EnforcePolicy, policy: Example.UserPolicy
+plug Sheriff.Plug.EnforceLaw, law: Example.UserLaw
 ```
 
 ## Error Handling

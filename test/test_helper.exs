@@ -17,8 +17,8 @@ defmodule Sheriff.TestErrorHandler do
   def unauthorized(conn), do: send_resp(conn, 403, "unauthorized")
 end
 
-defmodule Sheriff.TestPolicy do
-  @behaviour Sheriff.Policy
+defmodule Sheriff.TestLaw do
+  @behaviour Sheriff.Law
 
   def permitted?(%{id: _}, :index, _), do: true
 
