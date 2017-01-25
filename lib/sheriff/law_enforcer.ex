@@ -1,4 +1,4 @@
-defmodule Sheriff.Plug.EnforceLaw do
+defmodule Sheriff.LawEnforcer do
   @moduledoc """
   Enforces authorization laws for actors and resources
   """
@@ -19,7 +19,7 @@ defmodule Sheriff.Plug.EnforceLaw do
     conn
     |> fetch_actor(opts)
     |> fetch_resource
-    |> permitted?(law)
+    |> legal?(law)
   end
 
   defp fetch_actor(conn, opts) do
@@ -33,9 +33,9 @@ defmodule Sheriff.Plug.EnforceLaw do
     {actor, resource, conn, opts}
   end
 
-  defp permitted?({actor, resource, conn, opts}, law) do
-    permitted = apply(law, :permitted?, [actor, conn_action(conn), resource])
+  defp legal?({actor, resource, conn, opts}, law) do
+    permitted = apply(law, :legal?, [actor, conn_action(conn), resource])
     if permitted, do: conn, else: handle_error(:unauthorized, conn, opts)
   end
-  defp permitted?(conn, _), do: conn
+  defp legal?(conn, _), do: conn
 end

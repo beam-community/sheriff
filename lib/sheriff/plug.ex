@@ -6,8 +6,6 @@ defmodule Sheriff.Plug do
 
   import Plug.Conn, only: [halt: 1]
 
-  @configuration Application.get_env(:sheriff, Sheriff)
-
   @doc """
   Retrieve the current Actor resource.
   """
@@ -27,7 +25,7 @@ defmodule Sheriff.Plug do
 
   @spec from_opts(keyword, atom, any) :: any
   def from_opts(opts, key, default \\ nil)
-  def from_opts(opts, key, default) when opts in [nil, []], do: Keyword.get(@configuration, key, default)
+  def from_opts(opts, key, default) when opts in [nil, []], do: Application.get_env(:sheriff, key, default)
   def from_opts(opts, key, default), do: Keyword.get(opts, key) || from_opts(nil, key, default)
 
   @spec handle_error(atom, Plug.Conn.t, keyword) :: Plug.Conn.t

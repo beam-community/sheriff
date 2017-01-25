@@ -1,10 +1,10 @@
-defmodule Sheriff.Plug.LoadResourceTest do
+defmodule Sheriff.LoadResourceTest do
   use ExUnit.Case, async: true
   use Plug.Test
 
   import Sheriff.TestHelper
 
-  alias Sheriff.{Plug.LoadResource, TestErrorHandler, TestLoader}
+  alias Sheriff.{LoadResource, TestErrorHandler, TestLoader}
 
   test "fetches resource using application configuration" do
     conn =
