@@ -78,14 +78,14 @@ end
 
 There are two plugs that serve as the workhorses of Sheriff, these need to occur __after__ `Plug.Parser`:
 
-+ `Sheriff.Plug.LoadResource` - Uses the configured `ResourceLoader` to fetch the target resource
-+ `Sheriff.Plug.EnforceLaw` - Apply a given `Law` against the current user, target resource, and request.
++ `Sheriff.LoadResource` - Uses the configured `ResourceLoader` to fetch the target resource
++ `Sheriff.LawEnforcer`  - Apply a given `Law` against the current user, target resource, and request.
 
 When defining our authorization pipeline we could use something like this:
 
 ```elixir
-plug Sheriff.Plug.LoadResource, loader: Example.UserLoader
-plug Sheriff.Plug.EnforceLaw, law: Example.UserLaw
+plug Sheriff.LoadResource, loader: Example.UserLoader
+plug Sheriff.LawEnforcer, law: Example.UserLaw
 ```
 
 ## Error Handling
@@ -102,7 +102,7 @@ implements `resource_missing/1`, `unauthenticated/1`, and `unauthorized/1`; the 
 Sheriff makes no assumptions so we need to tell it which module to use as a handler:
 
 ```elixir
-config :sheriff, Sheriff,
+config :sheriff,
   handler: YourApp.ErrorHandler
 ```
 

@@ -45,3 +45,4 @@ Temporary Items
 erl_crash.dump
 *.ez
 *.beam
+doc/

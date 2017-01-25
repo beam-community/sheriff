@@ -1,4 +1,4 @@
-defmodule Sheriff.Plug.LoadResource do
+defmodule Sheriff.LoadResource do
   @moduledoc """
   Load the requested resource and store it on the connection.
   """

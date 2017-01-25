@@ -1,4 +1,4 @@
 use Mix.Config
 
-config :sheriff, Sheriff,
+config :sheriff,
   loader: Sheriff.TestLoader

@@ -20,11 +20,11 @@ end
 defmodule Sheriff.TestLaw do
   @behaviour Sheriff.Law
 
-  def permitted?(%{id: _}, :index, _), do: true
+  def legal?(%{id: _}, :index, _), do: true
 
-  def permitted?(%{id: id}, {:get, "/users"}, %{id: id}), do: true
-  def permitted?(%{role: "admin"}, _, _), do: true
-  def permitted?(_, _, _), do: false
+  def legal?(%{id: id}, {:get, "/users"}, %{id: id}), do: true
+  def legal?(%{role: "admin"}, _, _), do: true
+  def legal?(_, _, _), do: false
 end
 
 defmodule Sheriff.TestLoader do
