@@ -23,6 +23,8 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
     end
     ```
 
+An example application can be found at [yakschuss/sheriff_example](https://github.com/yakschuss/sheriff_example).
+
 ## Current User
 
 Sheriff defaults to looking in `Plug.Conn.private` for `:current_user`, but this may not be compatible with all applications, so we can configure the key:
