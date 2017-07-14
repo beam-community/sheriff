@@ -25,10 +25,10 @@ defmodule Sheriff.Mixfile do
 
   defp deps do
     [
-      {:plug, "~> 1.2.2"},
+      {:plug, "~> 1.4"},
 
       # Development and test dependencies
-      {:credo, "~> 0.5", only: [:dev, :test]},
+      {:credo, "~> 0.8", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end

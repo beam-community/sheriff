@@ -27,7 +27,6 @@ defmodule Sheriff.LawEnforcer do
     {conn.private[resource_key], conn, opts}
   end
 
-  defp fetch_resource({nil, conn, opts}), do: handle_error(:unauthenticated, conn, opts)
   defp fetch_resource({actor, conn, opts}) do
     resource = Plug.current_resource(conn)
     {actor, resource, conn, opts}
