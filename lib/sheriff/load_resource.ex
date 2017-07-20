@@ -27,7 +27,7 @@ defmodule Sheriff.LoadResource do
   defp fetch_resource({loader, opts}, conn) do
     case apply(loader, :fetch_resource, [conn_action(conn), conn.params]) do
       {:ok, resource} ->
-        put_private(conn, :sheriff_resource, resource)
+        set_current_resource(conn, resource)
       {:error, _reason} ->
         handle_error(:resource_missing, conn, opts)
     end
