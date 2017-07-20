@@ -7,6 +7,8 @@ defmodule Sheriff.LoadResourceTest do
   alias Sheriff.{LoadResource, TestErrorHandler, TestLoader}
 
   test "fetches resource using application configuration" do
+    Application.put_env(:sheriff, :loader, TestLoader)
+
     conn =
       :get
       |> conn("/users?id=42")
@@ -22,7 +24,7 @@ defmodule Sheriff.LoadResourceTest do
       |> conn("/users?id=13")
       |> Plug.Conn.put_private(:phoenix_action, :show)
       |> run_plug(Plug.Parsers, parsers: [:urlencoded])
-      |> run_plug(LoadResource, [])
+      |> run_plug(LoadResource, loader: TestLoader)
 
     assert conn.private[:sheriff_resource] == %{id: 13}
   end
