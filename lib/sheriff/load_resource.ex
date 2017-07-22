@@ -4,7 +4,6 @@ defmodule Sheriff.LoadResource do
   """
 
   import Sheriff.Plug
-  import Plug.Conn, only: [put_private: 3]
 
   @doc false
   def init(opts), do: opts
