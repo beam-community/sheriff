@@ -12,7 +12,7 @@ defmodule Sheriff.LoadResource do
   Loads a resource for the requested path.  In the event of an error `resource_missing/1`
   will be invoked on the configured error handler.
   """
-  @spec call(Plug.Conn.t, keyword) :: Plug.Conn.t
+  @spec call(Plug.Conn.t(), keyword) :: Plug.Conn.t()
   def call(conn, opts) do
     opts
     |> resource_loader
@@ -27,6 +27,7 @@ defmodule Sheriff.LoadResource do
     case apply(loader, :fetch_resource, [conn_action(conn), conn.params]) do
       {:ok, resource} ->
         set_current_resource(conn, resource)
+
       {:error, _reason} ->
         handle_error(:resource_missing, conn, opts)
     end

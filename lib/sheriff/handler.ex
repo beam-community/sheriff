@@ -5,7 +5,7 @@ defmodule Sheriff.Handler do
   of behaviours
   """
 
-  @callback resource_missing(Plug.Conn.t) :: Plug.Conn.t
-  @callback unauthenticated(Plug.Conn.t) :: Plug.Conn.t
-  @callback unauthorized(Plug.Conn.t) :: Plug.Conn.t
+  @callback resource_missing(Plug.Conn.t()) :: Plug.Conn.t()
+  @callback unauthenticated(Plug.Conn.t()) :: Plug.Conn.t()
+  @callback unauthorized(Plug.Conn.t()) :: Plug.Conn.t()
 end

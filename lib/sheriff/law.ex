@@ -3,5 +3,5 @@ defmodule Sheriff.Law do
   A basic behaviour for laws
   """
 
-  @callback legal?(map, {atom, String.t} | atom, map | nil) :: boolean()
+  @callback legal?(map, {atom, String.t()} | atom, map | nil) :: boolean()
 end
