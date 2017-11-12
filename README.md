@@ -1,42 +1,41 @@
-# Sheriff
+![](logo.png)
+
 [![Build Status](https://travis-ci.org/doomspork/sheriff.svg?branch=master)](https://travis-ci.org/doomspork/sheriff)
 
-A simple minimal-dependency way to manage policy based authorization.
+Sheriff is a simple minimal-dependency way to manage policy based authorization for Plug based applications, including [Phoenix](https://github.com/phoenixframework/phoenix).
+
+If you're looking for authentication check out [Guardian](https://github.com/ueberauth/guardian) or [Ueberauth](https://github.com/ueberauth/ueberauth) for third-party oauth.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+The latest on [hex.pm](https://hex.pm/packages/sheriff):
+```elixir
+def deps do
+  [{:sheriff, "~> 1.0"}]
+end
+```
 
-  1. Add `sheriff` to your list of dependencies in `mix.exs`:
+If you prefer living on the edge use `master`:
 
-    ```elixir
-    def deps do
-      [{:sheriff, "~> 0.3"}]
-    end
-    ```
-
-  2. Ensure `sheriff` is started before your application:
-
-    ```elixir
-    def application do
-      [applications: [:sheriff]]
-    end
-    ```
-
-An example application can be found at [yakschuss/sheriff_example](https://github.com/yakschuss/sheriff_example).
+```elixir
+def deps do
+  [{:sheriff, github: "doomspork/sheriff"}]
+end
+```
 
 ## Current User
 
-Sheriff defaults to looking in `Plug.Conn.private` for `:current_user`, but this may not be compatible with all applications, so we can configure the key:
+By default Sheriff will look for the current user in the `:current_user` key within `Plug.Conn.private`.
+Since this may not be compatible with all applications, we've provided a way to reconfigure the key:
 
 ```elixir
-config :sheriff, Sheriff,
+config :sheriff,
   resource_key: :your_desired_resource_key
 ```
 
 ## Resource Loading
 
-Resource loaders are responsible for retrieving the targetted resource provided for a specific request.  A global loader can be specified in your application configuration or individual loaders can be supplied on a per plug basis.
+Resource loaders are responsible for retrieving the requested resources.  A global loader can be specified in your application configuration or individual loaders can be supplied on a per plug basis.
 
 Sheriff ships with a convenient `Sheriff.ResourceLoader` behaviour:
 
@@ -47,7 +46,6 @@ defmodule Example.UserLoader do
   def fetch_resource(:show, %{"id" => id}), do: Repo.get(User, id)
   def fetch_resource(:index, _params), do: Repo.all(User)
 end
-
 ```
 
 ## Laws
@@ -61,18 +59,18 @@ defmodule Example.UserLaw do
   alias Example.User
 
   # Admins can see all the things!
-  def permitted?(%User{role: "admin"}, _request, _resource), do: true
+  def legal?(%User{role: "admin"}, _request, _resource), do: true
 
   # Users can access themselves
-  def permitted?(%User{id: id}, _request, %User{id: id}), do: true
+  def legal?(%User{id: id}, _request, %User{id: id}), do: true
 
   # Team admin can view team members
-  def permitted?(%User{role: "team_admin", team_id: id}, :show, resources) do
+  def legal?(%User{role: "team_admin", team_id: id}, :show, resources) do
     Enum.all?(resources, &(&1.team_id == team_id))
   end
 
   # No match, no access
-  def permitted?(_, _, _), do: false
+  def legal?(_, _, _), do: false
 end
 ```
 
@@ -90,6 +88,9 @@ plug Sheriff.LoadResource, loader: Example.UserLoader
 plug Sheriff.LawEnforcer, law: Example.UserLaw
 ```
 
+_Note:_ The `Sheriff.LoadResource` and the `Sheriff.ResourceLoader` behaviour are for simple use-cases.
+For more involved resource fetching you may find it's necessary to implement your own plug, make sure the loaded resources are assigned to the connection under the  `:sheriff_resource` key.
+
 ## Error Handling
 
 Sheriff has just three error scenarios we need to address:
@@ -105,7 +106,7 @@ Sheriff makes no assumptions so we need to tell it which module to use as a hand
 
 ```elixir
 config :sheriff,
-  handler: YourApp.ErrorHandler
+  handler: Example.ErrorHandler
 ```
 
 That's it!
