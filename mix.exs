@@ -42,7 +42,7 @@ defmodule Sheriff.Mixfile do
   end
 
   defp package do
-    [files: ["lib", "mix.exs", "README.md", "LICENSE", "CHANGELOG.md"],
+    [files: ["lib", "mix.exs", "README.md", "LICENSE"],
       maintainers: ["Sean Callan", "Bobby Grayson"],
       licenses: ["MIT"],
       links: %{"GitHub": @github}]
