@@ -1,6 +1,6 @@
 ![](logo.png)
 
-[![Build Status](https://travis-ci.org/doomspork/sheriff.svg?branch=master)](https://travis-ci.org/doomspork/sheriff)
+[![Build Status](https://travis-ci.org/beam-community/sheriff.svg?branch=master)](https://travis-ci.org/beam-community/sheriff)
 
 Sheriff is a simple minimal-dependency way to manage policy based authorization for Plug based applications, including [Phoenix](https://github.com/phoenixframework/phoenix).
 
