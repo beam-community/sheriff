@@ -3,7 +3,7 @@ defmodule Sheriff.Mixfile do
 
   @version "1.0.0"
 
-  @github "https://github.com/doomspork/sheriff"
+  @github "https://github.com/beam-community/sheriff"
 
   def project do
     [app: :sheriff,
