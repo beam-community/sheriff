@@ -19,7 +19,7 @@ If you prefer living on the edge use `master`:
 
 ```elixir
 def deps do
-  [{:sheriff, github: "doomspork/sheriff"}]
+  [{:sheriff, github: "beam-community/sheriff"}]
 end
 ```
 
