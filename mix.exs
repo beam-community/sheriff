@@ -6,17 +6,19 @@ defmodule Sheriff.Mixfile do
   @github "https://github.com/beam-community/sheriff"
 
   def project do
-    [app: :sheriff,
-     build_embedded: Mix.env == :prod,
-     deps: deps(),
-     description: description(),
-     docs: docs(),
-     elixir: "~> 1.3",
-     homepage_url: @github,
-     package: package(),
-     source_url: @github,
-     start_permanent: Mix.env == :prod,
-     version: @version]
+    [
+      app: :sheriff,
+      build_embedded: Mix.env() == :prod,
+      deps: deps(),
+      description: description(),
+      docs: docs(),
+      elixir: "~> 1.3",
+      homepage_url: @github,
+      package: package(),
+      source_url: @github,
+      start_permanent: Mix.env() == :prod,
+      version: @version
+    ]
   end
 
   def application do
@@ -28,7 +30,7 @@ defmodule Sheriff.Mixfile do
       {:plug, ">= 1.2.0"},
 
       # Development and test dependencies
-      {:credo, "~> 0.8", only: [:dev, :test]},
+      {:credo, ">= 0.0.0", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
@@ -42,9 +44,11 @@ defmodule Sheriff.Mixfile do
   end
 
   defp package do
-    [files: ["lib", "mix.exs", "README.md", "LICENSE"],
+    [
+      files: ["lib", "mix.exs", "README.md", "LICENSE"],
       maintainers: ["Sean Callan", "Bobby Grayson"],
       licenses: ["MIT"],
-      links: %{"GitHub": @github}]
+      links: %{GitHub: @github}
+    ]
   end
 end
