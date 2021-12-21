@@ -1,0 +1,17 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  qa:
+    uses: straw-hat-team/github-actions-workflows/.github/workflows/elixir-quality-assurance.yml@v1.0.0
+    with:
+      elixir-version: '1.12'
+      otp-version: '24'
+      dialyzer-enabled: false
